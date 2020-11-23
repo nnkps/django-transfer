@@ -15,6 +15,7 @@ COPY --from=build-python /wheels /wheels
 COPY --from=build-python requirements.txt .
 RUN pip install --no-cache /wheels/*
 WORKDIR /app
+RUN mkdir staticfiles
 COPY . .
 RUN adduser -D myuser
 USER myuser
