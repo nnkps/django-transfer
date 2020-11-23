@@ -16,6 +16,6 @@ COPY --from=build-python requirements.txt .
 RUN pip install --no-cache /wheels/*
 WORKDIR /app
 COPY . .
-RUN mkdir -p /app/staticfiles
+RUN python manage.py collectstatic --noinput
 RUN adduser -D myuser
 USER myuser
