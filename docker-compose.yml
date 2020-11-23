@@ -3,10 +3,10 @@ version: '3.7'
 services:
   web:
     build: .
+    command: gunicorn django_transfer.wsgi:application --bind 0.0.0.0:8765
     ports:
       - 8007:8765
     environment:
-      - PORT=8765
       - DEBUG=1
       - DATABASE_URL=postgres://django_transfer:django_transfer@db:5432/django_transfer_dev
     depends_on:

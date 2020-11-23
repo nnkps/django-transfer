@@ -13,7 +13,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
 DEBUG = int(os.environ.get("DEBUG", default=0)) 
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "evening-tundra-50688.herokuapp.com"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "enigmatic-river-00937.herokuapp.com"]
 
 
 # Application definition

@@ -26,4 +26,4 @@ $ docker rm django-transfer
 
 ### Production
 
-See the blog [post](https://testdriven.io/blog/deploying-django-to-heroku-with-docker/).
+[https://enigmatic-river-00937.herokuapp.com/](https://enigmatic-river-00937.herokuapp.com/)
