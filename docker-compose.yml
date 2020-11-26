@@ -3,14 +3,18 @@ version: '3.7'
 services:
   web:
     build: .
-    command: gunicorn django_transfer.wsgi:application --bind 0.0.0.0:8765
+    command: gunicorn django_transfer.wsgi:application --bind 0.0.0.0:8765 --reload
     ports:
       - 8007:8765
     environment:
       - DEBUG=1
       - DATABASE_URL=postgres://django_transfer:django_transfer@db:5432/django_transfer_dev
+      - ENV=development
+      - DROPBOX_OAUTH2_TOKEN=
     depends_on:
       - db
+    volumes:
+      - ./:/app/
   db:
     image: postgres:12.0-alpine
     volumes:

@@ -1,0 +1,9 @@
+{% if password %}
+{{ password }} - <a href="{{ item.get_absolute_url }}">{{ item.get_absolute_url }}</a>
+
+{% endif %}
+
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
