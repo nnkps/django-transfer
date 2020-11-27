@@ -1,18 +1,22 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from ..models import ProtectedItem
+from ..models import ProtectedUrl, ProtectedFile, ProtectedItem
 
 
-class UserSerializer(serializers.ModelSerializer):
+class ProtectedUrlSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ("id", "username", "email", "is_staff")
+        model = ProtectedUrl
+        fields = ["url"]
+
+
+class ProtectedFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProtectedFile
+        fields = ["uploaded_file"]
 
 
 class ProtectedItemSerializer(serializers.ModelSerializer):
-    token = serializers.CharField(read_only=True)
-
     class Meta:
         model = ProtectedItem
-        fields = ("id", "token", "owner")
+        fields = ["password"]

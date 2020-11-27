@@ -5,7 +5,7 @@ from .models import ProtectedItem
 
 
 class ProtectedWithPasswordForm(forms.Form):
-    token = forms.CharField()
+    token = forms.CharField(widget=forms.HiddenInput)
     password = forms.CharField(widget=forms.PasswordInput)
 
     def clean(self):
@@ -16,7 +16,7 @@ class ProtectedWithPasswordForm(forms.Form):
         if token and password:
             self.item = ProtectedItem.objects.get(token=token)
             if not self.item or not self.item.check_password(password):
-                raise ValidationError("wrong password")
+                raise ValidationError("password incorrect")
 
             if self.item.is_expired:
                 raise ValidationError("link expired")

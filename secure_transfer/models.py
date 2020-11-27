@@ -1,4 +1,5 @@
 from datetime import timedelta
+from mimetypes import guess_type
 from secrets import token_urlsafe
 
 from django.contrib.auth.hashers import (
@@ -7,8 +8,11 @@ from django.contrib.auth.hashers import (
 )
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 
 
 class User(AbstractUser):
@@ -37,6 +41,11 @@ class ProtectedItem(models.Model):
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
 
+    def create_random_password(self):
+        password = get_random_string()
+        self.set_password(password)
+        return password
+
     def check_password(self, raw_password):
         """
         Returns a boolean of whether the raw_password was correct. Handles
@@ -56,6 +65,21 @@ class ProtectedItem(models.Model):
 
     def get_absolute_url(self):
         return reverse("protected", args=[self.token])
+
+    def get_response(self):
+        if hasattr(self, "protectedurl"):
+            return redirect(self.protectedurl.url)
+
+        file_ = self.protectedfile.uploaded_file
+        filename = str(file_)[1:]
+        content_type = guess_type(filename)[0]
+        response = HttpResponse(
+            file_.read(),
+            content_type=content_type,
+        )
+        disposition = "inline" if content_type.startswith("image") else "attachment"
+        response["Content-Disposition"] = f'{disposition}; filename="{filename}"'
+        return response
 
 
 class ProtectedFile(ProtectedItem):
